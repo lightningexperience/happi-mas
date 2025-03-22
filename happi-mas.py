@@ -61,7 +61,7 @@ st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
 
 load_dotenv()
 
-ESCALATION_KEYWORDS = ["support", "help", "issue", "problem", "troubleshoot", "fix", "cases"]
+ESCALATION_KEYWORDS = ["support", "help", "issue", "problem", "troubleshoot", "fix","case status", "cases"]
 
 ### ---- CustomAgent (Groq API) ---- ###
 def chat_with_customagent(user_input, selected_model, memory_window):
