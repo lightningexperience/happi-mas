@@ -1,4 +1,4 @@
-# v1.34 Streamlit GUI for Multi-Agent System (Sticky prompt & single input, reverse chronological order, connection messages)
+# v1.35 Streamlit GUI for Multi-Agent System (Sticky prompt & single input, reverse chronological order, connection messages)
 import os
 import requests
 import json
@@ -69,7 +69,8 @@ def chat_with_customagent(user_input, selected_model, memory_window):
         st.session_state.customagent_memory = ConversationBufferWindowMemory(
             k=memory_window, memory_key="chat_history", return_messages=True
         )
-    groq_api_key = os.getenv("GROQ_API_KEY")
+    raw_key = os.getenv("GROQ_API_KEY")
+    groq_api_key = raw_key.strip().strip('"') if raw_key else ""
     groq_chat = ChatGroq(groq_api_key=groq_api_key, model_name=selected_model)
     prompt = ChatPromptTemplate.from_messages([
         SystemMessage(content="You are CustomAgent, a helpful chatbot that assists users with general inquiries. Please provide complete and comprehensive responses in full sentences."),
@@ -79,6 +80,8 @@ def chat_with_customagent(user_input, selected_model, memory_window):
     conversation = LLMChain(llm=groq_chat, prompt=prompt, memory=st.session_state.customagent_memory)
     response = conversation.predict(human_input=user_input)
     return response
+
+# ......
 
 ### ---- Agentforce (Salesforce API) ---- ###
 def get_access_token():
