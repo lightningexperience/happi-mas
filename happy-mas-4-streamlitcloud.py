@@ -1,4 +1,3 @@
-# This file is a clone of happy-mas. However the code is slightly changed to make it work with streamlit cloud instead of heroku.
 # v1.35 Streamlit GUI for Multi-Agent System (Sticky prompt & single input, reverse chronological order, connection messages)
 import os
 import requests
@@ -82,14 +81,16 @@ def chat_with_customagent(user_input, selected_model, memory_window):
     response = conversation.predict(human_input=user_input)
     return response
 
+# ......
+
 ### ---- Agentforce (Salesforce API) ---- ###
 def get_access_token():
-    sf_auth_url = os.getenv("SF_AUTH_URL")
-    url = f"{sf_auth_url}/services/oauth2/token"
+    sf_instance = os.getenv("SF_INSTANCE")
+    url = f"{sf_instance}/services/oauth2/token"
     payload = {
         'grant_type': 'client_credentials',
-        'client_id': os.getenv("SALESFORCE_CLIENT_ID"),
-        'client_secret': os.getenv("SALESFORCE_CLIENT_SECRET")
+        'client_id': os.getenv("SF_CLIENT_ID"),
+        'client_secret': os.getenv("SF_CLIENT_SECRET")
     }
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
     response = requests.post(url, data=payload, headers=headers)
